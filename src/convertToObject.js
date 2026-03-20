@@ -6,21 +6,21 @@
  * @return {object}
  */
 function convertToObject(sourceString) {
-  return sourceString.split(';').reduce((obj, declaration) => {
+  return sourceString.split(';').reduce((styleObject, declaration) => {
     const colonIndex = declaration.indexOf(':');
 
     if (colonIndex === -1) {
-      return obj;
+      return styleObject;
     }
 
     const key = declaration.slice(0, colonIndex).trim();
     const value = declaration.slice(colonIndex + 1).trim();
 
-    if (key && value) {
-      obj[key] = value;
+    if (!key || !value) {
+      return styleObject;
     }
 
-    return obj;
+    return { ...styleObject, [key]: value };
   }, {});
 }
 
